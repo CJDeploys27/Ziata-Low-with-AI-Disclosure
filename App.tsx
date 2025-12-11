@@ -36,10 +36,13 @@ const App: React.FC = () => {
 
     // Simple handler for the "Learn More" action. Placed here so it can use `addMessage`.
     const handleLearnMore = () => {
-        // Bot-only reply (user message is already added by `handleUserResponse`)
+        // Bot reply with a single 'Begin' option so the user can reconnect to the main flow
         addMessage({
             sender: 'bot',
-            text: "Your responses are analyzed securely in real-time to generate lifestyle and wellness recommendations. Your information will not be shared with any third parties. When you are ready to proceed, simply click 'Begin'.",
+            text: "Your responses are analyzed securely in real-time to generate lifestyle and wellness recommendations. Your information will not be shared with any third parties.",
+            options: [
+                { text: 'Begin', value: 'begin', needScore: 0, subtype: 'COGNITIVE' },
+            ],
         });
     };
 
