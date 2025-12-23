@@ -16,13 +16,13 @@ const App: React.FC = () => {
         {
             id: 'welcome-2',
             sender: 'bot',
-            text: "Your privacy is our priority. Ziata adheres to strict data privacy standards. Would you like to start the conversation? Or learn more about the privacy policy?",
+            text: "Your privacy is our priority. Ziata adheres to strict data privacy standards. Would you like to start the conversation?",
             options: [
                 { text: 'Begin', value: 'begin', needScore: 0, subtype: 'COGNITIVE' },
-                { text: 'Learn More', value: 'learn_more', needScore: 0, subtype: 'COGNITIVE' },
             ],
         },
-        ];
+    ];
+
     const [messages, setMessages] = useState<Message[]>(createInitialMessages);
     const [isTyping, setIsTyping] = useState<boolean>(false);
     const [currentTopic, setCurrentTopic] = useState<Topic | null>(null);
@@ -32,18 +32,6 @@ const App: React.FC = () => {
 
     const addMessage = (message: Omit<Message, 'id'>) => {
         setMessages(prev => [...prev, { ...message, id: Date.now().toString() }]);
-    };
-
-    // Simple handler for the "Learn More" action. Placed here so it can use `addMessage`.
-    const handleLearnMore = () => {
-        // Bot reply with a single 'Begin' option so the user can reconnect to the main flow
-        addMessage({
-            sender: 'bot',
-            text: "Your responses are analyzed securely in real-time to generate lifestyle and wellness recommendations. Your information will not be shared with any third parties.",
-            options: [
-                { text: 'Begin', value: 'begin', needScore: 0, subtype: 'COGNITIVE' },
-            ],
-        });
     };
 
     const resetChat = () => {
@@ -68,13 +56,6 @@ const App: React.FC = () => {
 
         setTimeout(() => {
             setIsTyping(false);
-
-            // Flow Control
-            if (option.value === 'learn_more') {
-                handleLearnMore();
-                setOptionsDisabled(false);
-                return;
-            }
 
             if (option.value === 'begin') {
                 addMessage({
